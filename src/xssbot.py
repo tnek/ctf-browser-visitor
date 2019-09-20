@@ -10,7 +10,7 @@ job_q_l = asyncio.Lock()
 
 async def visit(config):
     service = services.Geckodriver()
-    browser = browsers.Firefox(**{'moz:firefoxOptions': {'args': ['-headless']}})
+    browser = browsers.Firefox(**{"moz:firefoxOptions": {"args": ["-headless"]}})
 
     async with get_session(service, browser) as session:
         await session.delete_all_cookies()
@@ -35,5 +35,5 @@ async def event_loop():
         await asyncio.sleep(1)
 
 
-loop = asyncio.get_event_loop()
-loop.create_task(event_loop())
+async def xssbot(loop):
+    loop.create_task(event_loop())
