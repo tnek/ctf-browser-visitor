@@ -27,10 +27,9 @@ async def queue_job(job):
 
 async def event_loop():
     while True:
-        if job_q:
-            while job_q:
-                async with job_q_l:
-                    await visit(job_q.pop())
+        while job_q:
+            async with job_q_l:
+                await visit(job_q.pop())
 
         await asyncio.sleep(1)
 
