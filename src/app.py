@@ -6,17 +6,11 @@ import json
 import logging
 
 from quart import Quart, request
+from hypercorn.asyncio import serve
 
 import xssbot
 
-logging.basicConfig(level=logging.INFO)
-
-DEBUG = bool(os.environ.get("XSSBOT_DEBUG", False))
-HOST = os.environ.get("XSSBOT_HOST", "0.0.0.0")
-PORT = int(os.environ.get("XSSBOT_PORT", 5000))
-
-if DEBUG:
-    logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 
 app = Quart(__name__)
@@ -40,4 +34,4 @@ async def visit():
 
 
 if __name__ == "__main__":
-    app.run(HOST, PORT)
+    app.run("0.0.0.0", 5000)
