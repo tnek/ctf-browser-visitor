@@ -4,8 +4,10 @@ import logging
 
 from arsenic import get_session, services, browsers
 
-job_q = []
-job_q_l = asyncio.Lock()
+from config import MAX_WORKER_COUNT
+
+workers_sem = asyncio.Semaphore(MAX_WORKER_COUNT)
+job_q = asyncio.Queue()
 
 
 async def visit(config):
@@ -21,17 +23,14 @@ async def visit(config):
 
 
 async def queue_job(job):
-    async with job_q_l:
-        job_q.append(job)
+    await job_q.put(job)
 
 
 async def event_loop():
     while True:
-        while job_q:
-            async with job_q_l:
-                await visit(job_q.pop())
-
-        await asyncio.sleep(1)
+        job = await job_q.get()
+        async with workers_sem:
+            await visit(job)
 
 
 async def xssbot(loop):

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import asyncio
+import concurrent.futures
 import threading
 import json
 import logging
@@ -9,12 +10,12 @@ from quart import Quart, request
 from hypercorn.asyncio import serve
 
 import xssbot
+from config import MAX_WORKER_COUNT, REQUIRED_FIELDS
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 app = Quart(__name__)
-REQUIRED_FIELDS = {"url"}
+executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER_COUNT)
 
 
 @app.before_serving
