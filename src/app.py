@@ -10,7 +10,7 @@ from hypercorn.asyncio import serve
 
 import xssbot
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 app = Quart(__name__)
