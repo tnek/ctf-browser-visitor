@@ -12,7 +12,7 @@ from hypercorn.asyncio import serve
 import xssbot
 from config import MAX_WORKER_COUNT, REQUIRED_FIELDS
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 app = Quart(__name__)
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER_COUNT)
