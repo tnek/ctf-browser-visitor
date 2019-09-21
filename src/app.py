@@ -29,14 +29,16 @@ async def visit():
     job = form.get("job", None)
     if not job:
         return "{}"
+    try:
+      config = json.loads(job)
+      logging.info(config)
+      if not all(field in config for field in REQUIRED_FIELDS):
+          return '{"status":"fail"}'
 
-    config = json.loads(job)
-    logging.info(config)
-    if not all(field in config for field in REQUIRED_FIELDS):
-        return '{"status":"fail"}'
-
-    await xssbot.queue_job(config)
-    return '{"status":"ok"}'
+      await xssbot.queue_job(config)
+      return '{"status":"ok"}'
+    except:
+      return 400, '{}'
 
 
 if __name__ == "__main__":

@@ -4,6 +4,8 @@ import logging
 
 from arsenic import get_session, services, browsers
 
+logger = logging.getLogger("xssbot")
+
 job_q = []
 job_q_l = asyncio.Lock()
 
@@ -14,6 +16,7 @@ async def visit(config):
 
     async with get_session(service, browser) as session:
         await session.delete_all_cookies()
+        logger.info("Processing job")
         for c in config.get("cookies", {}):
             await session.add_cookie(c, config["cookies"][c])
 
