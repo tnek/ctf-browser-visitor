@@ -1,26 +1,23 @@
 #!/usr/bin/python
 import os
 import asyncio
+import concurrent.futures
 import threading
 import json
 import logging
 
 from quart import Quart, request
-from hypercorn.asyncio import serve
 
 import xssbot
-
-logging.basicConfig(level=logging.INFO)
-
+from config import MAX_WORKER_COUNT, REQUIRED_FIELDS
 
 app = Quart(__name__)
-REQUIRED_FIELDS = {"url"}
-
+app.logger = logging.getLogger("xssbotapp")
 
 @app.before_serving
 async def app_init():
-    loop = asyncio.get_event_loop()
-    await xssbot.xssbot(loop)
+    app.loop = asyncio.get_event_loop()
+    await xssbot.xssbot(app.loop)
 
 
 @app.route("/visit", methods=["GET", "POST"])
@@ -28,10 +25,11 @@ async def visit():
     form = request.args
     job = form.get("job", None)
     if not job:
+        app.logger.info("Missing log field")
         return "{}"
     try:
       config = json.loads(job)
-      logging.info(config)
+      app.logger.info(config)
       if not all(field in config for field in REQUIRED_FIELDS):
           return '{"status":"fail"}'
 
