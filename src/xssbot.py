@@ -8,6 +8,7 @@ from config import MAX_WORKER_COUNT
 
 workers_sem = asyncio.Semaphore(MAX_WORKER_COUNT)
 job_q = None
+logger = logging.getLogger("xssbot")
 
 
 async def visit(config):

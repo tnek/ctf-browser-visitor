@@ -12,7 +12,7 @@ import xssbot
 from config import MAX_WORKER_COUNT, REQUIRED_FIELDS
 
 app = Quart(__name__)
-app.logger = logging.getLogger("xssbotapp")
+logger = logging.getLogger("xssbotapp")
 
 @app.before_serving
 async def app_init():
@@ -25,11 +25,11 @@ async def visit():
     form = request.args
     job = form.get("job", None)
     if not job:
-        app.logger.info("Missing log field")
+        logger.info("Missing log field")
         return "{}"
     try:
       config = json.loads(job)
-      app.logger.info(config)
+      logger.info(config)
       if not all(field in config for field in REQUIRED_FIELDS):
           return '{"status":"fail"}'
 
