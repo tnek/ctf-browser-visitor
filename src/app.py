@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.INFO)
 app = Quart(__name__)
 logger = logging.getLogger("xssbotapp")
 
+
 @app.before_serving
 async def app_init():
     logger.info("Hello world!")
@@ -31,16 +32,16 @@ async def visit():
         logger.info("Missing job field")
         return "{}"
     try:
-      config = json.loads(job)
-      logger.info(config)
-      sys.stdout.flush()
-      if not all(field in config for field in REQUIRED_FIELDS):
-          return '{"status":"fail"}'
+        config = json.loads(job)
+        logger.info(config)
+        sys.stdout.flush()
+        if not all(field in config for field in REQUIRED_FIELDS):
+            return '{"status":"fail"}'
 
-      await xssbot.queue_job(config)
-      return '{"status":"ok"}'
+        await xssbot.queue_job(config)
+        return '{"status":"ok"}'
     except:
-      return 400, '{}'
+        return 400, "{}"
 
 
 if __name__ == "__main__":
