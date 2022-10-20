@@ -13,7 +13,10 @@ job_q = None
 
 async def visit(config):
     service = services.Geckodriver()
-    browser = browsers.Firefox(**{"moz:firefoxOptions": {"args": ["-headless"]}})
+    browser = browsers.Firefox(
+        **{"moz:firefoxOptions": {
+            "args": ["-headless"]
+        }})
 
     logging.info("Hitting url " + config["url"])
     try:
@@ -26,15 +29,16 @@ async def visit(config):
                 domain = c.get("domain", None)
                 path = c.get("path", "/")
                 secure = c.get("secure", False)
-                await session.add_cookie(
-                    k, value, path=path, domain=domain, secure=secure
-                )
+                await session.add_cookie(k,
+                                         value,
+                                         path=path,
+                                         domain=domain,
+                                         secure=secure)
 
             await session.get(config["url"])
     except Exception as e:
-        logging.info(
-            "Exception hitting url " + str(config) + " with exception " + e.message
-        )
+        logging.info("Exception hitting url " + str(config) +
+                     " with exception " + e.message)
 
 
 async def queue_job(job):
