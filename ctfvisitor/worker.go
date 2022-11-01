@@ -33,9 +33,9 @@ type WorkerConfig struct {
 // worker.
 func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 	switch browser {
-	case Unknown:
+	case UNKNOWN:
 		fallthrough
-	case Chrome:
+	case CHROME:
 		return &WorkerConfig{
 			Dest: "localhost:%v/wd/hub",
 			Caps: selenium.Capabilities{"browserName": "chrome"},
@@ -44,7 +44,7 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 				selenium.Output(os.Stderr),
 			},
 		}
-	case Firefox:
+	case FIREFOX:
 		return &WorkerConfig{
 			Dest: "localhost:%v/wd/hub",
 			Caps: selenium.Capabilities{"browserName": "firefox"},

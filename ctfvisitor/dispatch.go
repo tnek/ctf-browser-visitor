@@ -11,9 +11,9 @@ import (
 type BrowserType int
 
 const (
-	Unknown BrowserType = iota
-	Chrome
-	Firefox
+	UNKNOWN BrowserType = iota
+	CHROME
+	FIREFOX
 )
 
 type Config struct {
