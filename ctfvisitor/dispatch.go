@@ -129,7 +129,7 @@ func (d *Dispatch) LoopWithRestart(ctx context.Context, workerCount int) {
 
 				w, workerCleanup, err := InitWorker(d.wc, id, port)
 				if err != nil {
-					log.Printf("worker %d failed to initialize", id)
+					log.Printf("worker %d failed to initialize: %v", id, err)
 				}
 				defer workerCleanup()
 
