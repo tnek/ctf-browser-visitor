@@ -37,7 +37,7 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 		fallthrough
 	case CHROME:
 		return &WorkerConfig{
-			Dest: "localhost:%v/wd/hub",
+			Dest: "http://localhost:%v/wd/hub",
 			Caps: selenium.Capabilities{"browserName": "chrome"},
 			ServiceOpts: []selenium.ServiceOption{
 				selenium.ChromeDriver(path),
@@ -46,7 +46,7 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 		}
 	case FIREFOX:
 		return &WorkerConfig{
-			Dest: "localhost:%v/wd/hub",
+			Dest: "http://localhost:%v/wd/hub",
 			Caps: selenium.Capabilities{"browserName": "firefox"},
 			ServiceOpts: []selenium.ServiceOption{
 				selenium.GeckoDriver(path),
