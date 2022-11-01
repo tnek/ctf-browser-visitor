@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
@@ -48,7 +47,6 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 			Caps: caps,
 			ServiceOpts: []selenium.ServiceOption{
 				selenium.ChromeDriver(path),
-				selenium.Output(os.Stderr),
 			},
 		}
 	case FIREFOX:
@@ -62,7 +60,6 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 			Caps: caps,
 			ServiceOpts: []selenium.ServiceOption{
 				selenium.GeckoDriver(path),
-				selenium.Output(os.Stderr),
 			},
 		}
 	}
