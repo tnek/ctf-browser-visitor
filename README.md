@@ -5,7 +5,7 @@ Bot visitor for XSS challenges in CTF
 The example ctf-browser-visitor binary will allow you to queue up visits for sites with the following request:
 
 ```
-http://localhost:8080/visit?job={"url":"url_to_visit","cookies":{"key":"value"}}
+http://localhost:8080/?job={"url":"url_to_visit","cookies":{"key":"value"}}
 ```
 
 
