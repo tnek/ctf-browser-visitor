@@ -26,6 +26,7 @@ FROM ubuntu:latest
 
 RUN apt-get update && apt-get install -y curl xvfb openjdk-11-jre software-properties-common
 RUN add-apt-repository ppa:mozillateam/ppa && apt-get update && apt-get install -y firefox-esr
+RUN ln -s /usr/bin/firefox-esr /usr/bin/firefox
 
 COPY --from=builder /user/group /user/passwd /etc/
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/

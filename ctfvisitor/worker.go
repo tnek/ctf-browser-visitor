@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/tebeka/selenium"
+	"github.com/tebeka/selenium/chrome"
+	"github.com/tebeka/selenium/firefox"
 )
 
 type Worker struct {
@@ -36,18 +38,28 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 	case UNKNOWN:
 		fallthrough
 	case CHROME:
+		caps := selenium.Capabilities{"browserName": "chrome"}
+		caps.AddChrome(chrome.Capabilities{
+			Args: []string{"--no-sandbox", "--headless"},
+		})
+
 		return &WorkerConfig{
 			Dest: "http://localhost:%v/wd/hub",
-			Caps: selenium.Capabilities{"browserName": "chrome"},
+			Caps: caps,
 			ServiceOpts: []selenium.ServiceOption{
 				selenium.ChromeDriver(path),
 				selenium.Output(os.Stderr),
 			},
 		}
 	case FIREFOX:
+		caps := selenium.Capabilities{"browserName": "firefox"}
+		caps.AddFirefox(firefox.Capabilities{
+			Args: []string{"-headless"},
+		})
+
 		return &WorkerConfig{
 			Dest: "http://localhost:%v/wd/hub",
-			Caps: selenium.Capabilities{"browserName": "firefox"},
+			Caps: caps,
 			ServiceOpts: []selenium.ServiceOption{
 				selenium.GeckoDriver(path),
 				selenium.Output(os.Stderr),
