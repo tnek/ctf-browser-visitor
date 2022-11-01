@@ -47,7 +47,9 @@ func main() {
 	QUEUE_SIZE := flag.Int("q", 10000, "Max number of queued up requests")
 	NUMWORKERS := flag.Int("w", 10, "Number of instances of drivers")
 
-	if len(flag.Args()) < 2 {
+	flag.Parse()
+
+	if flag.NArg() < 2 {
 		man()
 		return
 	}
@@ -65,13 +67,13 @@ func main() {
 	} else if strings.Contains((*BROWSER_PATH), "geckodriver") {
 		browserType = ctfvisitor.FIREFOX
 	}
-	flag.Parse()
 
 	cfg := &ctfvisitor.Config{
 		QueueSize:    *QUEUE_SIZE,
 		SeleniumPath: *SELENIUM_PATH,
 		BrowserPath:  *BROWSER_PATH,
 		Browser:      browserType,
+		MinPort:      port + 1,
 	}
 
 	ctf, err := ctfvisitor.Init(cfg)
