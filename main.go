@@ -24,7 +24,6 @@ type App struct {
 	Ctf *ctfvisitor.Dispatch
 }
 
-//http://127.0.0.1:5000/visit?job={"url":"url_to_visit","cookies":{"key":"value"}}
 func (a *App) Index(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query().Get("job")
 
@@ -98,5 +97,4 @@ func main() {
 	}
 
 	log.Fatal(s.ListenAndServe())
-
 }
