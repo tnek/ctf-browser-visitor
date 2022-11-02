@@ -39,7 +39,16 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 	case CHROME:
 		caps := selenium.Capabilities{"browserName": "chrome"}
 		caps.AddChrome(chrome.Capabilities{
-			Args: []string{"--no-sandbox", "--headless"},
+			Args: []string{
+				"--no-sandbox",
+				"--headless",
+				"--autoplay-policy=no-user-gesture-required",
+				"--no-first-run",
+				"--disable-gpu",
+				"--use-fake-ui-for-media-stream",
+				"--use-fake-device-for-media-stream",
+				"--disable-sync",
+			},
 		})
 
 		return &WorkerConfig{
