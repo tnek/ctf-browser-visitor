@@ -45,6 +45,7 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 				"--autoplay-policy=no-user-gesture-required",
 				"--no-first-run",
 				"--disable-gpu",
+				"--disable-dev-shm-usage",
 				"--use-fake-ui-for-media-stream",
 				"--use-fake-device-for-media-stream",
 				"--disable-sync",
