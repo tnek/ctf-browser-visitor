@@ -98,6 +98,7 @@ func (w *Worker) Run(ctx context.Context, wq chan Handler) error {
 	for {
 		select {
 		case handle := <-wq:
+			log.Printf("taking job")
 			if err := handle(ctx, w.wd); err != nil {
 				log.Printf("handler failed with error: %v", err)
 			}
