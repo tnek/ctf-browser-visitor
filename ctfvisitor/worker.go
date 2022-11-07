@@ -104,9 +104,6 @@ func (w *Worker) Run(ctx context.Context, wq chan Handler) error {
 			if err := w.Reset(ctx); err != nil {
 				return fmt.Errorf("reset of worker failed: %w", err)
 			}
-			if err := w.wd.Close(); err != nil {
-				return fmt.Errorf("close of worker failed: %w", err)
-			}
 
 		case <-ctx.Done():
 			if err := w.Cleanup(ctx); err != nil {
