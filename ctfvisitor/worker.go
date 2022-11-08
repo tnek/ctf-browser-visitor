@@ -96,12 +96,12 @@ func InitWorker(wc *WorkerConfig, id int, port int) (*Worker, func(), error) {
 		}, nil
 }
 
-func (w *Worker) Run(ctx context.Context, wq chan Handler) error {
+func (w *Worker) Run(ctx context.Context, wq chan *Site) error {
 	for {
 		select {
-		case handle := <-wq:
+		case site := <-wq:
 			log.Printf("taking job")
-			if err := handle(ctx, w.wd); err != nil {
+			if err := CookieHandler(ctx, w.wd, site.Path, site.Cookies); err != nil {
 				log.Printf("handler failed with error: %v", err)
 			}
 			if err := w.Reset(ctx); err != nil {

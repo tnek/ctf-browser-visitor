@@ -6,6 +6,8 @@ import (
 	"log"
 	"math/rand"
 	"sync"
+
+	"github.com/tebeka/selenium"
 )
 
 type BrowserType int
@@ -15,6 +17,11 @@ const (
 	CHROME
 	FIREFOX
 )
+
+type Site struct {
+	Path    string
+	Cookies []*selenium.Cookie
+}
 
 type Config struct {
 	// SeleniumPath is the Selenium .jar.
@@ -36,7 +43,7 @@ type Dispatch struct {
 	MaxPort int
 
 	wc        *WorkerConfig
-	wq        chan Handler
+	wq        chan *Site
 	assignLck sync.Mutex
 	idToPort  map[int]int
 	portToId  map[int]int
@@ -72,7 +79,7 @@ func InitWithWC(c *Config, wc *WorkerConfig) (*Dispatch, error) {
 		MaxPort: c.MaxPort,
 
 		wc:       wc,
-		wq:       make(chan Handler, c.QueueSize),
+		wq:       make(chan *Site, c.QueueSize),
 		idToPort: map[int]int{},
 		portToId: map[int]int{},
 	}
@@ -80,8 +87,8 @@ func InitWithWC(c *Config, wc *WorkerConfig) (*Dispatch, error) {
 	return d, nil
 }
 
-func (d *Dispatch) Queue(h Handler) error {
-	d.wq <- h
+func (d *Dispatch) Queue(s *Site) error {
+	d.wq <- s
 	return nil
 }
 
@@ -121,6 +128,7 @@ func (d *Dispatch) LoopWithRestart(ctx context.Context, workerCount int) {
 	for {
 		select {
 		case <-tokens:
+			log.Printf("taking job")
 			go func() {
 				defer func() { tokens <- true }()
 

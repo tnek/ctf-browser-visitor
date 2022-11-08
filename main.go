@@ -29,9 +29,9 @@ func (a *App) Index(w http.ResponseWriter, r *http.Request) {
 
 	var job Job
 	json.Unmarshal([]byte(q), &job)
+	site := &ctfvisitor.Site{Path: job.URL, Cookies: job.Cookies}
 
-	handler := ctfvisitor.CookieHandler(job.URL, job.Cookies)
-	if err := a.Ctf.Queue(handler); err != nil {
+	if err := a.Ctf.Queue(site); err != nil {
 		log.Printf("error with handling request '%v': %v", q, err)
 	}
 }
@@ -89,7 +89,7 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", a.Index)
+	mux.HandleFunc("/visit", a.Index)
 
 	s := http.Server{
 		Addr:    fmt.Sprintf("%v:%v", host, port),
