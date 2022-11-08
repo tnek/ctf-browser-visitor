@@ -2,6 +2,7 @@ package ctfvisitor
 
 import (
 	"context"
+	"log"
 
 	"github.com/tebeka/selenium"
 )
@@ -17,6 +18,7 @@ func CookieHandler(path string, cookies []*selenium.Cookie) Handler {
 				return err
 			}
 		}
+		log.Printf("getting: %v", path)
 
 		return wd.Get(path)
 	}
