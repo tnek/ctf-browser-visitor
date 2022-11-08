@@ -15,8 +15,8 @@ func CookieHandler(
 	ctx context.Context, wd selenium.WebDriver,
 	path string, cookies []*selenium.Cookie) error {
 	wd.Get(path)
-	log.Printf("visiting %v with cookies %v\n", path, cookies)
 	for _, cookie := range cookies {
+		log.Printf("visiting %v with cookie %v\n", path, cookie)
 		if err := wd.AddCookie(cookie); err != nil {
 			return err
 		}
