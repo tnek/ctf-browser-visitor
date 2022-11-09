@@ -128,7 +128,7 @@ func (d *Dispatch) LoopWithRestart(ctx context.Context, workerCount int) {
 	for {
 		select {
 		case <-tokens:
-			log.Printf("taking job")
+			log.Printf("new worker")
 			go func() {
 				defer func() { tokens <- true }()
 
