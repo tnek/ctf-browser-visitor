@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
@@ -70,7 +69,7 @@ func DefaultWC(browser BrowserType, path string) *WorkerConfig {
 			Dest: "http://localhost:%v/wd/hub",
 			Caps: caps,
 			ServiceOpts: []selenium.ServiceOption{
-				selenium.Output(os.Stderr),
+				//				selenium.Output(os.Stderr),
 				selenium.GeckoDriver(path),
 			},
 		}
