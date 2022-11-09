@@ -27,8 +27,12 @@ type App struct {
 func (a *App) Index(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query().Get("job")
 
+	log.Printf("deserializing %v", q)
 	var job Job
-	json.Unmarshal([]byte(q), &job)
+	if err := json.Unmarshal([]byte(q), &job); err != nil {
+		log.Printf("failed to unmarshal: %v", err)
+	}
+	log.Printf("job json: %v\n", job)
 	site := &ctfvisitor.Site{Path: job.URL, Cookies: job.Cookies}
 
 	if err := a.Ctf.Queue(site); err != nil {
