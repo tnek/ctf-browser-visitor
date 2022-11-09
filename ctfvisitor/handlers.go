@@ -14,6 +14,10 @@ type Handler func(ctx context.Context, wd selenium.WebDriver) error
 func CookieHandler(
 	ctx context.Context, wd selenium.WebDriver,
 	path string, cookies []*selenium.Cookie) error {
+	if err := wd.SetImplicitWaitTimeout(200); err != nil {
+		return err
+	}
+
 	wd.Get(path)
 	for _, cookie := range cookies {
 		log.Printf("visiting %v with cookie %v\n", path, cookie)
@@ -22,6 +26,10 @@ func CookieHandler(
 		}
 	}
 
-	return wd.Get(path)
+	if err := wd.Get(path); err != nil {
+		return err
+	}
+
+	return nil
 
 }
