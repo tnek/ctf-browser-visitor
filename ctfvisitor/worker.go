@@ -104,9 +104,8 @@ func (w *Worker) Run(ctx context.Context, wq chan *Site) error {
 			if err := CookieHandler(ctx, w.wd, site.Path, site.Cookies); err != nil {
 				log.Printf("handler failed with error: %v", err)
 			}
-			if err := w.Reset(ctx); err != nil {
-				return fmt.Errorf("reset of worker failed: %w", err)
-			}
+			defer w.wd.Quit()
+			return nil
 
 		case <-ctx.Done():
 			if err := w.Cleanup(ctx); err != nil {
