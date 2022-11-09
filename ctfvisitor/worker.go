@@ -119,9 +119,11 @@ func (w *Worker) Run(ctx context.Context, wq chan *Site) error {
 }
 
 func (w *Worker) Reset(ctx context.Context) error {
-	if err := w.wd.DeleteAllCookies(); err != nil {
-		return fmt.Errorf("reset failed to clear cookies: %w", err)
-	}
+	/*
+		if err := w.wd.DeleteAllCookies(); err != nil {
+			return fmt.Errorf("reset failed to clear cookies: %w", err)
+		}
+	*/
 	return nil
 }
 
