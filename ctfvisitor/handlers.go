@@ -3,6 +3,7 @@ package ctfvisitor
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/tebeka/selenium"
 )
@@ -29,6 +30,8 @@ func CookieHandler(
 	if err := wd.Get(path); err != nil {
 		return err
 	}
+
+	time.Sleep(1000 * time.Millisecond)
 
 	return nil
 

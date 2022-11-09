@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
@@ -105,8 +104,6 @@ func (w *Worker) Run(ctx context.Context, wq chan *Site) error {
 			if err := CookieHandler(ctx, w.wd, site.Path, site.Cookies); err != nil {
 				log.Printf("handler failed with error: %v", err)
 			}
-			time.Sleep(1)
-			defer w.wd.Quit()
 			return nil
 
 		case <-ctx.Done():
